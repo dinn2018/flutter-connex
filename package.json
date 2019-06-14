@@ -1,0 +1,22 @@
+{
+  "name": "flutter-connex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dinn2018/flutter-connex.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dinn2018/flutter-connex/issues"
+  },
+  "homepage": "https://github.com/dinn2018/flutter-connex#readme",
+  "dependencies": {
+    "@vechain/connex-framework": "^1.0.0-alpha-1"
+  }
+}

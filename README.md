@@ -1,2 +1,2 @@
 # flutter-connex
-connex implementation  for flutter
+connex implementation for flutter
