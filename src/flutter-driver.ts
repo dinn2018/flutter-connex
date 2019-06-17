@@ -2,38 +2,33 @@ import '@vechain/connex-framework'
 
 declare global {
     interface Window {
+        block_head: Connex.Thor.Status['head']
         flutter_inappbrowser: {
-            callHandler(...args: any): any
+            callHandler(...args: any): Promise<any>
         }
     }
 }
 
 export class FlutterDriver implements Connex.Driver {
-
     public readonly genesis: Connex.Thor.Block = {
-        id: 'string',
+        id: '0x000000000b2bce3c70bc649a02749e8687721b09ed2e15997f466536b20bb127',
         number: 0,
-        size: 0,
-        parentID: 'string',
-        timestamp: 0,
-        gasLimit: 10,
-        beneficiary: 'string',
+        size: 170,
+        parentID: '0xffffffff00000000000000000000000000000000000000000000000000000000',
+        timestamp: 1530014400,
+        gasLimit: 10000000,
+        beneficiary: '0x0000000000000000000000000000000000000000',
         gasUsed: 0,
         totalScore: 0,
-        txsRoot: 'string',
+        txsRoot: '0x45b0cfc220ceec5b7c1c62c4d4193d38e4eba48e8815729ce75f9c0ab0e4c1c0',
         txsFeatures: 0,
-        stateRoot: 'string',
-        receiptsRoot: 'string',
-        signer: 'string',
+        stateRoot: '0x4ec3af0acbad1ae467ad569337d2fe8576fe303928d35b8cdd91de47e9ac84bb',
+        receiptsRoot: '0x45b0cfc220ceec5b7c1c62c4d4193d38e4eba48e8815729ce75f9c0ab0e4c1c0',
+        signer: '0x0000000000000000000000000000000000000000',
         transactions: [],
         isTrunk: true
     }
-    public readonly head: Connex.Thor.Status['head'] = {
-        id: 'string',
-        number: 0,
-        parentID: 'string',
-        timestamp: 0
-    }
+    public readonly head: Connex.Thor.Status['head'] = window.block_head
 
     public async getBlock(revision: string | number): Promise<Connex.Thor.Block> {
         return window.flutter_inappbrowser.callHandler('Thor', 'getBlock', revision)
@@ -46,6 +41,7 @@ export class FlutterDriver implements Connex.Driver {
     }
 
     public async getAccount(addr: string, revision: string): Promise<Connex.Thor.Account> {
+        alert(revision);
         return window.flutter_inappbrowser.callHandler('Thor', 'getAccount', addr, revision)
     }
 
@@ -135,7 +131,7 @@ export class FlutterDriver implements Connex.Driver {
     }
 
     public isAddressOwned(addr: string) {
-        return window.flutter_inappbrowser.callHandler('Connex', 'isAddressOwned', addr)
+        return true;
     }
 
 }
