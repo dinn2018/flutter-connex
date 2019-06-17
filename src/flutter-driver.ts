@@ -92,34 +92,28 @@ export class FlutterDriver implements Connex.Driver {
         return window.flutter_inappbrowser.callHandler('Thor', 'filterTransferLogs', arg)
     }
 
-    public async signTx(
-        msg: Connex.Vendor.SigningService.TxMessage,
-        options: {
-            delegated?: boolean,
-            signer?: string,
-            gas?: number,
-            dependsOn?: string,
-            link?: string,
-            comment?: string
-        }
-    ): Promise<{
-        unsignedTx?: {
-            raw: string,
-            origin: string
-        },
-        doSign(delegatorSignature?: string): Promise<Connex.Vendor.SigningService.TxResponse>
-    }> {
+    public async signTx(msg: Connex.Vendor.SigningService.TxMessage, options: {
+        signer?: string;
+        gas?: number;
+        dependsOn?: string;
+        link?: string;
+        comment?: string;
+        delegateHandler?: (unsignedTx: {
+            raw: string;
+            origin: string;
+        }) => Promise<{
+            signature: string;
+        }>;
+    }): Promise<Connex.Vendor.SigningService.TxResponse> {
         // tslint:disable-next-line:max-line-length
-        if (!options.delegated) {
+        if (!options.delegateHandler) {
             // tslint:disable-next-line:max-line-length
-            return { doSign: () => window.flutter_inappbrowser.callHandler('Vendor', 'signTx', msg, options) }
+            return window.flutter_inappbrowser.callHandler('Vendor', 'signTx', msg, options)
         }
         // TODO delegate sign tx
         // tslint:disable-next-line:max-line-length
-        return { doSign: (delegatorSignature?: string) => window.flutter_inappbrowser.callHandler('Connex', 'signTx', msg, options) }
-
+        throw new Error('unsupported now')
     }
-
     public async signCert(
         msg: Connex.Vendor.SigningService.CertMessage,
         options: {
