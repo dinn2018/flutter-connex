@@ -28,7 +28,7 @@ export class FlutterDriver implements Connex.Driver {
         transactions: [],
         isTrunk: true
     }
-    get head() {
+    getHead() {
         return { ...window.block_head };
     }
     public async getBlock(revision: string | number): Promise<Connex.Thor.Block> {

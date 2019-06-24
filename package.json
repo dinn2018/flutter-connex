@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/dinn2018/flutter-connex#readme",
   "dependencies": {
-    "@vechain/connex-framework": "^1.0.0-alpha-2"
+    "@vechain/connex-framework": "^1.0.0-alpha-4"
   }
 }
