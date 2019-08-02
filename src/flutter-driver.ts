@@ -5,9 +5,9 @@ declare global {
         block_head: Connex.Thor.Status['head']
         genesis: Connex.Thor.Block
         wallets: Array<String>
-        flutter_inappbrowser: {
-            callHandler(...args: any): Promise<any>
-        }
+        Thor: (...args: any) => Promise<any>
+        Vendor: (...args: any) => Promise<any>
+
     }
 }
 
@@ -19,25 +19,25 @@ export class FlutterDriver implements Connex.Driver {
         return { ...window.block_head };
     }
     public async getBlock(revision: string | number): Promise<Connex.Thor.Block> {
-        return window.flutter_inappbrowser.callHandler('Thor', 'getBlock', revision)
+        return window.Thor('getBlock', revision)
     }
     public async getTransaction(id: string, head: string): Promise<Connex.Thor.Transaction | null> {
-        return window.flutter_inappbrowser.callHandler('Thor', 'getTransaction', id, head)
+        return window.Thor('getTransaction', id, head)
     }
     public async getReceipt(id: string, head: string): Promise<Connex.Thor.Receipt | null> {
-        return window.flutter_inappbrowser.callHandler('Thor', 'getReceipt', id, head)
+        return window.Thor('getReceipt', id, head)
     }
 
     public async getAccount(addr: string, revision: string): Promise<Connex.Thor.Account> {
-        return window.flutter_inappbrowser.callHandler('Thor', 'getAccount', addr, revision)
+        return window.Thor('getAccount', addr, revision)
     }
 
     public async getCode(addr: string, revision: string): Promise<Connex.Thor.Code> {
-        return window.flutter_inappbrowser.callHandler('Thor', 'getCode', addr, revision)
+        return window.Thor('getCode', addr, revision)
     }
 
     public async getStorage(addr: string, key: string, revision: string): Promise<Connex.Thor.Storage> {
-        return window.flutter_inappbrowser.callHandler('Thor', 'getStorage', addr, key, revision)
+        return window.Thor('getStorage', addr, key, revision)
     }
     public async explain(
         arg: {
@@ -49,7 +49,7 @@ export class FlutterDriver implements Connex.Driver {
         revision: string,
         cacheTies?: string[]
     ): Promise<Connex.Thor.VMOutput[]> {
-        return window.flutter_inappbrowser.callHandler('Thor', 'explain', arg, revision, cacheTies)
+        return window.Thor('explain', arg, revision, cacheTies)
     }
     public async filterEventLogs(
         arg: {
@@ -62,7 +62,7 @@ export class FlutterDriver implements Connex.Driver {
             order: 'asc' | 'desc'
         }
     ): Promise<Connex.Thor.Event[]> {
-        return window.flutter_inappbrowser.callHandler('Thor', 'filterEventLogs', arg)
+        return window.Thor('filterEventLogs', arg)
     }
 
     public async filterTransferLogs(
@@ -76,7 +76,7 @@ export class FlutterDriver implements Connex.Driver {
             order: 'asc' | 'desc'
         }
     ): Promise<Connex.Thor.Transfer[]> {
-        return window.flutter_inappbrowser.callHandler('Thor', 'filterTransferLogs', arg)
+        return window.Thor('filterTransferLogs', arg)
     }
 
     public async signTx(msg: Connex.Vendor.SigningService.TxMessage, options: {
@@ -95,7 +95,7 @@ export class FlutterDriver implements Connex.Driver {
         // tslint:disable-next-line:max-line-length
         if (!options.delegateHandler) {
             // tslint:disable-next-line:max-line-length
-            return window.flutter_inappbrowser.callHandler('Vendor', 'signTx', msg, options)
+            return window.Vendor('signTx', msg, options)
         }
         // TODO delegate sign tx
         // tslint:disable-next-line:max-line-length
@@ -108,7 +108,7 @@ export class FlutterDriver implements Connex.Driver {
             link?: string
         }
     ): Promise<Connex.Vendor.SigningService.CertResponse> {
-        return window.flutter_inappbrowser.callHandler('Vendor', 'signCert', msg, options)
+        return window.Vendor('signCert', msg, options)
     }
 
     public isAddressOwned(addr: string) {
