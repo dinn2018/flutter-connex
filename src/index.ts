@@ -1,3 +1,38 @@
-import { Framework } from '@vechain/connex-framework';
-import { FlutterDriver } from './flutter-driver';
-Object.defineProperty(window, 'connex', { value: new Framework(new FlutterDriver()), enumerable: true });
+import { Driver } from './driver';
+import { SimpleNet } from './simple-net';
+import { Framework } from '@vechain/connex-framework'
+
+function createConnex(baseURL: string,
+    genesis: Connex.Thor.Block,
+    initialWallets: string[],
+    initialHead?: Connex.Thor.Status['head'], ) {
+    let simpleNet = new SimpleNet(baseURL)
+    let driver = new Driver(simpleNet, genesis, initialWallets, initialHead)
+    Object.defineProperty(window, 'connex', { value: new Framework(driver), enumerable: true });
+    delete window.baseURL;
+    delete window.genesis;
+    delete window.initialHead;
+    delete window.initialWallets;
+    (async function () {
+        let ticker = connex.thor.ticker()
+        while (true) {
+            await window.Ticker(connex.thor.status)
+            await ticker.next();
+        }
+    })()
+}
+
+createConnex(window.baseURL, window.genesis, window.initialWallets, window.initialHead)
+
+
+declare global {
+    interface Window {
+        baseURL: string
+        genesis: Connex.Thor.Block
+        initialWallets: string[]
+        initialHead?: Connex.Thor.Status['head']
+
+        Ticker: (...args: any) => Promise<any>
+        hasOwnProperty: (args: any) => boolean
+    }
+}
