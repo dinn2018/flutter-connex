@@ -4,7 +4,7 @@ import { Net } from '@vechain/connex.driver-nodejs';
 
 declare global {
     interface Window {
-        Vendor: (...args: any) => Promise<any>
+        flutter_webview_post: (...args: any) => Promise<any>
     }
 }
 
@@ -37,7 +37,7 @@ export class Driver extends DriverNoVendor {
         // tslint:disable-next-line:max-line-length
         if (!options.delegateHandler) {
             // tslint:disable-next-line:max-line-length
-            return window.Vendor('signTx', msg, options)
+            return window.flutter_webview_post('Vendor', 'signTx', msg, options)
         }
         // TODO delegate sign tx
         // tslint:disable-next-line:max-line-length
@@ -50,7 +50,7 @@ export class Driver extends DriverNoVendor {
             link?: string
         }
     ): Promise<Connex.Vendor.CertResponse> {
-        return window.Vendor('signCert', msg, options)
+        return window.flutter_webview_post('Vendor', 'signCert', msg, options)
     }
     public isAddressOwned(addr: string) {
         return this.wallets.includes(addr);
@@ -58,7 +58,7 @@ export class Driver extends DriverNoVendor {
 
     private async syncWallets() {
         for (; ;) {
-            let wallets = await window.Vendor('wallets');
+            let wallets = await window.flutter_webview_post('Vendor', 'wallets');
             if (wallets.length != this.wallets.length) {
                 this.wallets = wallets;
             }

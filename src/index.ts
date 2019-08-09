@@ -16,7 +16,7 @@ function createConnex(baseURL: string,
     (async function () {
         let ticker = connex.thor.ticker()
         while (true) {
-            await window.Ticker(connex.thor.status)
+            await window.flutter_webview_post('Ticker', connex.thor.status)
             await ticker.next();
         }
     })()
@@ -32,7 +32,6 @@ declare global {
         initialWallets: string[]
         initialHead?: Connex.Thor.Status['head']
 
-        Ticker: (...args: any) => Promise<any>
         hasOwnProperty: (args: any) => boolean
     }
 }
