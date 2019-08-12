@@ -18,7 +18,7 @@ export class Driver extends DriverNoVendor {
     ) {
         super(net, genesis, initialHead)
         this.wallets = initialWallets
-        this.syncWallets()
+        this.syncWallets();
     }
 
     public async signTx(msg: Connex.Vendor.TxMessage, options: {

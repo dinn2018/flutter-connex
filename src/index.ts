@@ -13,13 +13,6 @@ function createConnex(baseURL: string,
     delete window.genesis;
     delete window.initialHead;
     delete window.initialWallets;
-    (async function () {
-        let ticker = connex.thor.ticker()
-        while (true) {
-            await window.flutter_webview_post('Ticker', connex.thor.status)
-            await ticker.next();
-        }
-    })()
 }
 
 createConnex(window.baseURL, window.genesis, window.initialWallets, window.initialHead)
