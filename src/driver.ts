@@ -8,17 +8,13 @@ declare global {
     }
 }
 
-export class Driver extends DriverNoVendor {
-    private wallets: string[]
+export class Driver extends DriverNoVendor implements Connex.Driver {
     constructor(
         net: Net,
         genesis: Connex.Thor.Block,
-        initialWallets: string[],
         initialHead?: Connex.Thor.Status['head'],
     ) {
         super(net, genesis, initialHead)
-        this.wallets = initialWallets
-        this.syncWallets();
     }
 
     public async signTx(msg: Connex.Vendor.TxMessage, options: {
@@ -52,17 +48,8 @@ export class Driver extends DriverNoVendor {
     ): Promise<Connex.Vendor.CertResponse> {
         return window.flutter_webview_post('Vendor', 'signCert', msg, options)
     }
-    public isAddressOwned(addr: string) {
-        return this.wallets.includes(addr);
-    }
-
-    private async syncWallets() {
-        for (; ;) {
-            let wallets = await window.flutter_webview_post('Vendor', 'wallets');
-            if (wallets.length != this.wallets.length) {
-                this.wallets = wallets;
-            }
-        }
+    public async isAddressOwned(addr: string): Promise<boolean> {
+        return window.flutter_webview_post('Vendor', 'wallets', addr);
     }
 
 }

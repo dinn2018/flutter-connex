@@ -18,6 +18,6 @@
   "homepage": "https://github.com/dinn2018/flutter-connex#readme",
   "dependencies": {
     "@vechain/connex-framework": "github:vechain/connex-framework",
-    "@vechain/connex.driver-nodejs": "^1.0.0"
+    "@vechain/connex.driver-nodejs": "^1.1.1"
   }
 }
