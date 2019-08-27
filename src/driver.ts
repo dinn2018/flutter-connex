@@ -21,7 +21,8 @@ export class Driver implements Connex.Driver {
     }
 
     public async pollHead(): Promise<Connex.Thor.Status['head']> {
-        return window.flutter_webview_post('Head');
+        this.head = await window.flutter_webview_post('Head');
+        return this.head;
     }
 
     public async getBlock(revision: string | number): Promise<Connex.Thor.Block | null> {
